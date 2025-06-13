@@ -1,12 +1,12 @@
 package tw.frzfox.personaldata;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,6 +74,21 @@ public class HomeActivity extends AppCompatActivity implements DataAdapter.dataI
         intent.putExtra("Zodiac", personal.getZodiac());
         intent.putExtra("BloodType", personal.getBloodType());
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onItemLongClick(int itemId, Personal personal) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("選擇了帳號：" + personal.getAccount())
+                .setPositiveButton("刪除", (dialog, id) -> {
+                    dbHelper.deleteData(personal.getAccount());
+                    setRecyclerView();
+                    dialog.dismiss();
+                })
+                .setNegativeButton("取消", (dialog, id) -> dialog.dismiss());
+
+        builder.show();
+        return false;
     }
 
 }

@@ -55,8 +55,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyHolder> {
             super(Holder);
             Holder.setOnClickListener(view -> {
                 Interface.onItemClick(getAdapterPosition(), personalArray.get(getAdapterPosition()));
-//                    notifyItemRemoved(getAdapterPosition());
                 Log.d("AdapterPosition", "" + getAdapterPosition());
+            });
+
+            Holder.setOnLongClickListener(view -> {
+                Interface.onItemLongClick(getAdapterPosition(), personalArray.get(getAdapterPosition()));
+                return false;
             });
 
             itemAccount = Holder.findViewById(R.id.itemAccount);
@@ -70,7 +74,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyHolder> {
     }
 
     public interface dataInterface {
-        void onItemClick(int id, Personal personal);//當點擊項目時
+        void onItemClick(int id, Personal personal);
+        boolean onItemLongClick(int id, Personal personal);
+
     }
 
 }
